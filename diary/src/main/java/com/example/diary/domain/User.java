@@ -1,17 +1,25 @@
 package com.example.diary.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
 public class User extends BaseEntity{
+
+    @Builder
+    public User(Long id, String email, String nickName, String password, List<Diary> diaries) {
+        this.id = id;
+        this.email = email;
+        this.nickName = nickName;
+        this.password = password;
+        this.diaries = diaries == null ? new ArrayList<>() : diaries;
+    }
 
     @Id
     @Column(name = "id")
