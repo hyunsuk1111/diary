@@ -1,7 +1,12 @@
-package com.example.diary.domain;
+package com.example.diary.user.domain;
 
+import com.example.diary.common.BaseEntity;
+import com.example.diary.diary.domain.Diary;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Builder
     public User(Long id, String email, String nickName, String password, List<Diary> diaries) {

@@ -1,4 +1,4 @@
-package com.example.diary.domain;
+package com.example.diary.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

@@ -1,5 +1,7 @@
-package com.example.diary.domain;
+package com.example.diary.diary.domain;
 
+import com.example.diary.common.BaseEntity;
+import com.example.diary.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,7 +9,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "diaries")
-public class Diary extends BaseEntity{
+public class Diary extends BaseEntity {
 
     @Builder
     public Diary(Long id, String title, String content, User user) {
