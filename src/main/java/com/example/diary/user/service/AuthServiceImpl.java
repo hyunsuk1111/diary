@@ -6,11 +6,16 @@ import com.example.diary.user.dto.LoginRequest;
 import com.example.diary.user.dto.UserDTO;
 import com.example.diary.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService{
 
     private final UserRepository userRepository;
@@ -47,6 +52,29 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    @Override
+    public User update(UserDTO userDTO) {
+        User user = userRepository.findByEmail(userDTO.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User updatedUser  = User.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickName(userDTO.getNickName() != null ? userDTO.getNickName() : user.getNickName())
+                .password(userDTO.getPassword() != null ? passwordEncoder.encode(userDTO.getPassword()) : user.getPassword())
+                .build();
+
+        return userRepository.save(updatedUser);
+    }
+
+    @Override
+    public void delete(UserDTO userDTO) {
+        User user = userRepository.findByEmail(userDTO.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        userRepository.delete(user);
+    }
+
     private boolean isEmailUnique(UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new RuntimeException("Email is already registered");
@@ -54,4 +82,6 @@ public class AuthServiceImpl implements AuthService{
 
         return true;
     }
+
+
 }

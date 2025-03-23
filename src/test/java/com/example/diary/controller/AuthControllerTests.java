@@ -6,12 +6,18 @@ import com.example.diary.user.dto.UserDTO;
 import com.example.diary.user.repository.UserRepository;
 import com.example.diary.user.service.AuthService;
 import jakarta.transaction.Transactional;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +37,7 @@ public class AuthControllerTests {
 
     @Test
     public void login() throws Exception {
-        LoginRequest loginRequest = new LoginRequest("test1@gmail.com", "1234");
+        LoginRequest loginRequest = new LoginRequest("test5@gmail.com", "1234");
 
         String token = authService.login(loginRequest);
 
@@ -49,7 +55,7 @@ public class AuthControllerTests {
 
     @Test
     public void register() throws Exception {
-        UserDTO userDTO = new UserDTO("test4@gmail.com", "nickname", "1234");
+        UserDTO userDTO = new UserDTO("test6@gmail.com", "nickname1", "1234");
 
         authService.register(userDTO);
 
@@ -61,7 +67,7 @@ public class AuthControllerTests {
 
     @Test
     public void registerFail() throws Exception {
-        UserDTO userDTO = new UserDTO("test3@gmail.com", "nickname", "1234");
+        UserDTO userDTO = new UserDTO("test3@gmail.com", "nickname2", "1234");
 
         // then
         Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -69,5 +75,20 @@ public class AuthControllerTests {
         });
 
         assertTrue(exception.getMessage().contains("Email is already registered"));
+    }
+
+    @Test
+    public void update() throws Exception {
+        UserDTO userDTO = new UserDTO("test6@gmail.com", "nickname2", "1234");
+
+        // When
+        User updatedUser = authService.update(userDTO);
+
+        // Then
+        User dbUser = userRepository.findByEmail("test6@gmail.com").orElseThrow(() -> new RuntimeException("User not found"));
+
+        assertNotNull(dbUser);
+        //assertEquals("nickname2", dbUser.getNickName());
+        assertNotEquals("oldPassword", dbUser.getPassword());
     }
 }
