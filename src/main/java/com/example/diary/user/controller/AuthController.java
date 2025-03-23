@@ -3,6 +3,7 @@ package com.example.diary.user.controller;
 import com.example.diary.jwt.JwtTokenUtil;
 import com.example.diary.user.dto.JwtResponse;
 import com.example.diary.user.dto.LoginRequest;
+import com.example.diary.user.dto.UserDTO;
 import com.example.diary.user.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,21 @@ public class AuthController {
     public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
         try {
             String token = authService.login(loginRequest);  // JWT 토큰 생성
+
             return ResponseEntity.ok(new JwtResponse(token));  // 생성한 토큰을 반환
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestBody UserDTO userDTO) {
+        try {
+            authService.register(userDTO);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error occurred during registration");
         }
     }
 }
