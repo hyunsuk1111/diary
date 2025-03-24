@@ -8,11 +8,10 @@ import com.example.diary.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -27,6 +26,7 @@ public class AuthServiceImpl implements AuthService{
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     public String login(LoginRequest loginRequest) {
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -54,8 +54,8 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     @Transactional
-    public User update(UserDTO userDTO) {
-        User user = userRepository.findByEmail(userDTO.getEmail())
+    public User update(Long id, UserDTO userDTO) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         User updatedUser  = User.builder()
@@ -70,12 +70,19 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     @Transactional
-    public void delete(UserDTO userDTO) {
-        User user = userRepository.findByEmail(userDTO.getEmail())
+    public void delete(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         userRepository.delete(user);
     }
+
+    @Override
+    public User getUserInfo(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 
     private boolean isEmailUnique(UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {

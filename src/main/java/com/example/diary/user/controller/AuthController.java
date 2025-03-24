@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -44,9 +46,9 @@ public class AuthController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<User> update(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         try {
-            User updatedUser = authService.update(userDTO);
+            User updatedUser = authService.update(id, userDTO);
 
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
@@ -54,14 +56,31 @@ public class AuthController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity delete(@RequestBody UserDTO userDTO) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
         try {
-            authService.delete(userDTO);
+            authService.delete(id);
 
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
+        }
+    }
+
+    @GetMapping("/userInfo")
+    public ResponseEntity<UserDTO> getUserInfo(Principal principal) {
+
+        try {
+            String email = principal.getName();
+
+            User userInfo = authService.getUserInfo(email);
+
+            UserDTO userDTO = new UserDTO(userInfo.getId(), userInfo.getEmail(), userInfo.getNickName());
+
+            return ResponseEntity.ok(userDTO);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 }

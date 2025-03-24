@@ -7,7 +7,8 @@ import com.example.diary.user.dto.UserDTO;
 public interface AuthService {
     String login(LoginRequest loginRequest);
     void register(UserDTO userDTO);
-    User update(UserDTO userDTO);
-    void delete(UserDTO userDTO);
+    User update(Long id, UserDTO userDTO);
+    void delete(Long id);
+    User getUserInfo(String email);
 
 }
