@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -91,4 +92,16 @@ public class AuthControllerTests {
         //assertEquals("nickname2", dbUser.getNickName());
         assertNotEquals("oldPassword", dbUser.getPassword());
     }
+
+    @Test
+    public void delete() throws Exception {
+        UserDTO userDTO = new UserDTO("test6@gmail.com", "nickname2", "1234");
+
+        authService.delete(userDTO);
+
+        Optional<User> existsUser = userRepository.findByEmail("test6@gmail.com");
+
+        assertThat(existsUser).isEmpty();
+    }
+
 }

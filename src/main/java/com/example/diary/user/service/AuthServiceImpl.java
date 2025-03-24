@@ -53,6 +53,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
+    @Transactional
     public User update(UserDTO userDTO) {
         User user = userRepository.findByEmail(userDTO.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -68,6 +69,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
+    @Transactional
     public void delete(UserDTO userDTO) {
         User user = userRepository.findByEmail(userDTO.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
