@@ -83,7 +83,7 @@ public class AuthControllerTests {
         UserDTO userDTO = new UserDTO("test6@gmail.com", "nickname2", "1234");
 
         // When
-        User updatedUser = authService.update(userDTO);
+        User updatedUser = authService.update(1L, userDTO);
 
         // Then
         User dbUser = userRepository.findByEmail("test6@gmail.com").orElseThrow(() -> new RuntimeException("User not found"));
@@ -97,7 +97,7 @@ public class AuthControllerTests {
     public void delete() throws Exception {
         UserDTO userDTO = new UserDTO("test6@gmail.com", "nickname2", "1234");
 
-        authService.delete(userDTO);
+        authService.delete(1L);
 
         Optional<User> existsUser = userRepository.findByEmail("test6@gmail.com");
 

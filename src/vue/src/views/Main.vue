@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <h1>LoginView</h1>
+    <h1>MainView</h1>
   </div>
 </template>
 
-<script setup>
-  // Composition API 사용 가능 (JS 버전)
+<script>
+export default {
+  name: 'MainView',
+}
 </script>
 
 <style>

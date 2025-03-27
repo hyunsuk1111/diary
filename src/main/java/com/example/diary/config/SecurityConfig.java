@@ -22,7 +22,9 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorizeRequests) -> {
-                    authorizeRequests.requestMatchers("/auth/login", "/auth/register","/error","/", "/index.html", "/css/**", "/js/**").permitAll(); // 로그인과 회원가입은 인증 없이 접근 가능
+                    authorizeRequests.requestMatchers(
+                            "/auth/login", "/auth/register","/error","/", "/index.html", "/css/**", "/js/**", "/login"
+                    ,"/favicon.ico").permitAll(); // 로그인과 회원가입은 인증 없이 접근 가능
                     authorizeRequests.anyRequest().authenticated(); // 그 외 요청은 인증 필요
                 })
                 .addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
