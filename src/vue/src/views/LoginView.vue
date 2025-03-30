@@ -1,26 +1,16 @@
 <template>
   <div id="login-wrapper">
-    <form @submit.prevent="handleLogin">
-      <input type="text" placeholder="아이디" v-model="email">
-      <input type="password" placeholder="비밀번호" v-model="password">
-      <button>로그인</button>
-    </form>
+      <LoginForm button-text="로그인" @login-submit="handleLogin"/>
   </div>
 </template>
 
 <script setup>
   import axios from 'axios';
-  import { ref } from 'vue'
+  import LoginForm from '@/components/LoginForm.vue';
 
-  const email = ref('');
-  const password = ref('');
-
-  const handleLogin = async () => {
+  const handleLogin = async ({ email, password }) => {
     try {
-      const response = await axios.post('/auth/login', {
-        email: email.value,
-        password: password.value
-      })
+      const response = await axios.post('/auth/login', { email,password })
       
       console.log('로그인 성공 ', response.data);
     } catch (error) {

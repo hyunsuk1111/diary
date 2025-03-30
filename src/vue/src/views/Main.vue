@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <h1>MainView</h1>
+    <router-link to="/login">로그인</router-link>
+    <router-link to="/register">회원가입</router-link>
   </div>
 </template>
 
