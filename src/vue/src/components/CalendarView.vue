@@ -6,14 +6,14 @@
             v-for="day in days"
             :key="day"
             class="day"
-            :class="{ hasDiary: diaryMap[day] }"
+            :class="{ hasDiary: props.diaryMap[day] }"
             @click="$emit('select-date', day)"
           >
           <div class="date">
             {{ day.split('-')[2] }}
           </div>
-          <div class="title" v-if="diaryMap[day]">
-            {{ diaryMap[day] || 'X' }}
+          <div class="title">
+            {{ day }} - {{ props.diaryMap[day]}}
           </div>
         </div>
       </div>
@@ -25,11 +25,9 @@
 
   defineOptions({ name: 'CalendarView' });
   
-  const diaryMap = defineProps({
-      diaryMap: { type: Object, default: () => ({}) }
-  });
-
-  console.log(diaryMap);
+  const props = defineProps({
+    diaryMap: Object
+  }); 
 
   // 테스트 데이터
   const days = computed(() => {

@@ -1,6 +1,6 @@
 <template>
   <div class="main-view">
-    <h2>📔 내 일기장</h2>
+    <h2>📔 오늘의 감정은 어땠나요?</h2>
     <p>{{ today }}</p>
 
     <!-- 달력 컴포넌트 -->
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, defineOptions } from 'vue'
+import { ref, reactive, defineOptions } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineOptions({
@@ -31,9 +31,9 @@ const today = new Date().toLocaleDateString()
 const todayDiary = ref(null) // 오늘 일기가 있으면 이걸로 보여줌
 
 // 예시 데이터: 날짜별 일기 제목
-const diaryMap = ref({
-  '2025-03-30': '오늘 클라이밍 재밌었다!',
+const diaryMap = reactive({
   '2025-03-29': '힘들었지만 뿌듯한 하루',
+  '2025-03-30': '오늘 클라이밍 재밌었다!',
 })
 
 const handleDateSelect = (date) => {
