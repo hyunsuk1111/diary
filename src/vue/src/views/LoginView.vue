@@ -7,13 +7,19 @@
 <script setup>
   import axios from 'axios';
   import LoginForm from '@/components/LoginForm.vue';
+  import router from '@/router';
 
   const handleLogin = async ({ email, password }) => {
     try {
-      const response = await axios.post('/auth/login', { email,password })
-      
-      console.log('로그인 성공 ', response.data);
+      const response = await axios.post('/auth/login', { email,password });
+
+      const token = response.data.token;
+      localStorage.setItem('accessToken', token);
+
+      alert('로그인 성공');
+      router.push('/diary');
     } catch (error) {
+      alert('로그인 실패');
       console.error('로그인 실패', error);
     }
   }//handleLogin

@@ -24,6 +24,7 @@
 <script setup>
 import axios from 'axios';
 import { ref, computed, watch } from 'vue'
+import router from '@/router';
 
 const email = ref('');
 const password = ref('');
