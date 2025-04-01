@@ -7,7 +7,7 @@
             :key="day"
             class="day"
             :class="{ hasDiary: props.diaryMap[day] }"
-            @click="$emit('select-date', day)"
+            @click="handleDateClick(day)"
           >
           <div class="date">
             {{ day.split('-')[2] }}
@@ -21,15 +21,17 @@
   </template>
   
   <script setup>
-  import { computed, defineOptions, defineProps } from 'vue'
+  import { computed, defineOptions, defineProps, defineEmits } from 'vue'
 
   defineOptions({ name: 'CalendarView' });
   
+  const emit = defineEmits(['select-date']);
+
   const props = defineProps({
     diaryMap: Object
   }); 
 
-  // 테스트 데이터
+  //실제 달력 불러오기 수정
   const days = computed(() => {
     const arr = []
     for (let i = 1; i <= 31; i++) {
@@ -37,7 +39,12 @@
       arr.push(`2025-03-${day}`)
     }
     return arr
-  })
+  })//days
+
+  const handleDateClick = (day) => {
+    emit('select-date', day);
+  }
+
   </script>
   
   <style scoped>
