@@ -1,6 +1,6 @@
 <template>
     <div class="diary-write">
-      <h2>📅 {{ date }} 일기 쓰기</h2>
+      <h2>📅 {{ date }} 오늘의 감정은?</h2>
   
       <input
         v-model="title"
@@ -20,24 +20,37 @@
   </template>
   
   <script setup>
+  import axios from 'axios';
   import { ref } from 'vue'
   import { useRoute } from 'vue-router'
   
-  const route = useRoute()
-  const date = route.query.date || '날짜 없음'
+  const router = useRoute();
+  const date = router.query.date;
   
-  const title = ref('')
-  const content = ref('')
+  const title = ref('');
+  const content = ref('');
   
-  const handleSave = () => {
-    console.log('저장할 데이터:', {
-      date,
-      title: title.value,
-      content: content.value,
-    })
-  
-    // 추후 axios.post('/api/diary', { diaryDate: date, title, content }) 추가 예정
-  }
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+
+      const response = await axios.post('/diary/write',
+      { 
+        diaryDate: date, 
+        title: title.value, 
+        content: content.value 
+      }, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      console.log('작성 성공 ', response);
+    } catch (error) {
+      console.error('작성 실패', error);
+    }
+  }//handleSave
   </script>
   
   <style scoped>

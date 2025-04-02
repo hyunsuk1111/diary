@@ -24,9 +24,7 @@
   import { computed, defineOptions, defineProps, defineEmits } from 'vue'
 
   defineOptions({ name: 'CalendarView' });
-  
   const emit = defineEmits(['select-date']);
-
   const props = defineProps({
     diaryMap: Object
   }); 
@@ -43,7 +41,7 @@
 
   const handleDateClick = (day) => {
     emit('select-date', day);
-  }
+  }//handleDateClick
 
   </script>
   
