@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LoginView from '@/views/LoginView.vue';
-import RegisterView from '@/views/RegisterView.vue';
-import DiaryMainView from '@/views/DiaryMainView.vue';
-import DiaryWriteView from '@/views/DiaryWriteView.vue';
+import LoginView from '@/views/auth/LoginView.vue';
+import RegisterView from '@/views/auth/RegisterView.vue';
+import DiaryMainView from '@/views/diary/DiaryMainView.vue';
+import DiaryWriteView from '@/views/diary/DiaryWriteView.vue';
 
 const routes = [
   { path: '/', redirect: '/login' },

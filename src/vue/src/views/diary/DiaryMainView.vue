@@ -17,7 +17,7 @@ defineOptions({
   name: 'MainView',
 })
 
-import CalendarView from '@/components/CalendarView.vue'
+import CalendarView from '@/components/calendar/CalendarView.vue'
 
 const router = useRouter()
 const today = new Date().toLocaleDateString()

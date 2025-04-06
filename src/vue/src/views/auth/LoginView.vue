@@ -6,7 +6,7 @@
 
 <script setup>
   import axios from 'axios';
-  import LoginForm from '@/components/LoginForm.vue';
+  import LoginForm from '@/components/form/LoginForm.vue';
   import router from '@/router';
 
   const handleLogin = async ({ email, password }) => {
